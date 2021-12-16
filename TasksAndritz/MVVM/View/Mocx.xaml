@@ -1,0 +1,167 @@
+﻿<Window x:Class="TasksAndritz.MVVM.View.Mocx"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TasksAndritz.MVVM.View"
+             mc:Ignorable="d" 
+             Height="400" Width="500"
+            xmlns:viewModel="clr-namespace:TasksAndritz.MVVM.ViewModel"
+             WindowStyle="None"
+            WindowStartupLocation="CenterScreen"
+            Background="Transparent"
+            ResizeMode="NoResize"
+            AllowsTransparency="True">
+
+    <Border Background="#272537"
+            CornerRadius="20"
+            BorderBrush="Black"
+            BorderThickness="1"
+            Padding="10">
+
+        <StackPanel>
+            <ContentControl Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="10"
+                        Content="{Binding BarTop}"/>
+            <StackPanel VerticalAlignment="Stretch">
+                <TextBlock Text="Mocx"
+                Margin="15,0"
+                Padding="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Foreground="White"
+                Background="Transparent"
+                FontSize="25"/>
+
+                <StackPanel VerticalAlignment="Center" Margin="10">
+                    <StackPanel.Resources>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Margin" Value="0,10"/>
+                        </Style>
+                    </StackPanel.Resources>
+                    <StackPanel>
+                        <TextBlock Text="Code"
+                        Margin="15,5"
+                        Padding="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Foreground="White"
+                        Background="Transparent"
+                        FontSize="15"/>
+                        <Border CornerRadius="10"
+                            Background="#353340"
+                            Padding="10"
+                            Margin="10,0">
+                            <Grid>
+                                <Rectangle StrokeThickness="1"/>
+                                <TextBox VerticalAlignment="Center"
+                                HorizontalAlignment="Stretch"
+                                Margin="5"
+                                Text="{Binding MocxObj.Cod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                x:Name="clickTextBox"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Foreground="#CFCFCF"/>
+
+                                <TextBlock IsHitTestVisible="False"
+                                       Text="ex: 123456"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Margin="10,0,0,0"
+                                       FontSize="15"
+                                       Foreground="DarkGray"
+                                       Grid.Column="1">
+
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text, ElementName=clickTextBox}" Value="">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                            <Setter Property="Visibility" Value="Hidden"/>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="Address (url)"
+                        Margin="15,5"
+                        Padding="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Foreground="White"
+                        Background="Transparent"
+                        FontSize="15"/>
+                        <Border CornerRadius="10"
+                            Background="#353340"
+                            Padding="10"
+                            Margin="10,0">
+                            <Grid>
+                                <Rectangle StrokeThickness="1"/>
+                                <TextBox VerticalAlignment="Center"
+                                HorizontalAlignment="Stretch"
+                                Margin="5"
+                                Text="{Binding MocxObj.Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                x:Name="clickTextBox2"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Foreground="#CFCFCF"/>
+
+                                <TextBlock IsHitTestVisible="False"
+                                       Text="ex: https://alm.andritz.com/jira/browse/MOCX-13227"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Margin="10,0,0,0"
+                                       FontSize="15"
+                                       Foreground="DarkGray"
+                                       Grid.Column="1">
+
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text, ElementName=clickTextBox2}" Value="">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                            <Setter Property="Visibility" Value="Hidden"/>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel VerticalAlignment="Bottom">
+                        <Border Padding="10"
+                            x:Name="borderButton"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            MouseLeave="Border_MouseLeave"
+                            MouseMove="Border_MouseMove"
+                            CornerRadius="10">
+
+                            <Border.InputBindings>
+                                <MouseBinding MouseAction="LeftClick"
+                                                Command="{Binding SaveMocxCommand}"/>
+                            </Border.InputBindings>
+
+                            <TextBlock Text="Save"
+                               Margin="15,0"
+                                Padding="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Foreground="White"
+                                Background="Transparent"
+                                FontSize="15"/>
+
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>
