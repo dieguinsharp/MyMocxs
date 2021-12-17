@@ -24,13 +24,17 @@ namespace TasksAndritz.MVVM.ViewModel
 
         public RelayCommand OpenMocxCommand { get; set; }
         public RelayCommand DeleteMocxCommand { get; set; }
-        
+
+        public EventHandler AttLog;
+        public EventHandler LoadDates;
+
         public HomeViewModel()
         {
+            LoadDates += AttDates;
             OpenMocxCommand = new RelayCommand(r => GoToMocx(r as Mocx));
             DeleteMocxCommand = new RelayCommand(r => DeleteMocx(r as Mocx));
-            AttDates(null, null);
             mocxViewModel = new MocxViewModel();
+            LoadDates?.Invoke(this, new EventArgs());
         }
 
         MocxViewModel mocxViewModel;
@@ -67,14 +71,15 @@ namespace TasksAndritz.MVVM.ViewModel
 
         public void AttDates(object sender, EventArgs args)
         {
-            Mocxs = new ObservableCollection<Mocx>(appRepo.GetMocxs());
+            Mocxs = new ObservableCollection<Mocx>(appRepo.Mocxs());
+            AttLog?.Invoke(this, new EventArgs());
         }
 
         public void DeleteMocx(Mocx mocx)
         {
             appRepo.DeleteMocx(mocx.Id);
             CreateLog(mocx.Cod, TypeLog.Remove);
-            AttDates(null, null);
+            LoadDates?.Invoke(this, new EventArgs());
         }
 
         public void CloseMocx(object sender, EventArgs args)
@@ -87,7 +92,7 @@ namespace TasksAndritz.MVVM.ViewModel
             var textSearch = sender as string;
             if (string.IsNullOrEmpty(textSearch))
             {
-                this.AttDates(null, null);
+                LoadDates?.Invoke(this, new EventArgs());
                 return;
             }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SQLite;
+using TasksAndritz.LogService.Model;
 using TasksAndritz.MVVM.Model;
 
 namespace TasksAndritz.SQLiteService
@@ -13,9 +14,13 @@ namespace TasksAndritz.SQLiteService
             connection = new SQLiteConnection(App.GetDataBasePath());
             ExistDataBaseOrCreate(nameTableDatabase);
         }
-        public IEnumerable<Mocx> GetMocxs()
+        public IEnumerable<Mocx> Mocxs()
         {
             return connection.Table<Mocx>();
+        }
+        public IEnumerable<Log> Logs()
+        {
+            return connection.Table<Log>();
         }
         public void ExistDataBaseOrCreate(string nameTableDataBase, bool forced = false)
         {
@@ -23,6 +28,7 @@ namespace TasksAndritz.SQLiteService
             if(exist.Count == 0 || forced)
             {
                 connection.CreateTable<Mocx>();
+                connection.CreateTable<Log>();
             }
         }
         public bool SaveMocx(Mocx mocx)
@@ -43,6 +49,11 @@ namespace TasksAndritz.SQLiteService
             var mocx = GetMocx(idMocx);
             connection.Delete(mocx);
 
+            return true;
+        }
+        public bool DeleteLogs()
+        {
+            connection.DeleteAll<Log>();
             return true;
         }
         public Mocx GetMocx(int idMocx)

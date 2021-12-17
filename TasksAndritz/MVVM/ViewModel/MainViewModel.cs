@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using TasksAndritz.Core;
+using TasksAndritz.LogService.Model;
 using TasksAndritz.MVVM.View;
 
 namespace TasksAndritz.MVVM.ViewModel
@@ -38,6 +40,7 @@ namespace TasksAndritz.MVVM.ViewModel
         }
 
         public EventHandler SearchText;
+        public EventHandler LoadLog;
 
         private string _searchTextBox;
         public string SearchTextBox
@@ -54,7 +57,10 @@ namespace TasksAndritz.MVVM.ViewModel
         public MainViewModel()
         {
 
+            LoadLog += AttLogs;
+
             HomeViewModel = new HomeViewModel();
+            HomeViewModel.AttLog += AttLogs;
             SearchText += HomeViewModel.SearchMocx;
 
             MocxViewModel = new MocxViewModel();
@@ -65,9 +71,16 @@ namespace TasksAndritz.MVVM.ViewModel
 
             });
 
+            DeleteLogsCommand = new RelayCommand(r =>
+            {
+                appRepo.DeleteLogs();
+                LoadLog?.Invoke(this, new EventArgs());
+            });
+
             AddMocxCommand = new RelayCommand(r => GoToMocx(r as Model.Mocx));
 
             CurrentView = new HomeView(HomeViewModel);
+            LoadLog?.Invoke(this, new EventArgs());
         }
 
         public void GoToMocx(Model.Mocx mocx)
@@ -79,6 +92,7 @@ namespace TasksAndritz.MVVM.ViewModel
             }
 
             MocxViewModel.SaveMocxEvent += HomeViewModel.AttDates;
+            MocxViewModel.SaveMocxEvent += AttLogs;
             MocxViewModel.SaveMocxEvent += CloseMocx;
 
             var barTopViewModel = new BarTopCloseMinimizeViewModel()
@@ -95,6 +109,11 @@ namespace TasksAndritz.MVVM.ViewModel
             MocxView = new View.Mocx(MocxViewModel);
 
             MocxView.ShowDialog();
+        }
+
+        public void AttLogs(object sender, EventArgs args)
+        {
+            Logs = new ObservableCollection<Log>(appRepo.Logs());
         }
 
         public void CloseMocx(object sender, EventArgs args)

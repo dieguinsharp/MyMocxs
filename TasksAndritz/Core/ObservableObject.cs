@@ -31,14 +31,14 @@ namespace TasksAndritz.Core
             logControler.Send(new Log(typeLog, cod));
         }
 
-        public static readonly IEnumerable<ISendLog> SendLogServices = new List<ISendLog>
+        private static readonly IEnumerable<ISendLog> SendLogServices = new List<ISendLog>
         {
             new LogSQLite(),
             new LogTxt(), 
             new LogMessageBox()
         };
 
-        public static readonly IEnumerable<IRemoveLog> RemoveLogServices = new List<IRemoveLog>
+        private static readonly IEnumerable<IRemoveLog> RemoveLogServices = new List<IRemoveLog>
         {
             new LogSQLite(),
             new LogTxt()
