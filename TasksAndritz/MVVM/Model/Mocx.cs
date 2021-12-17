@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using SQLite;
-using TasksAndritz.MVVM.Interfaces;
 
 namespace TasksAndritz.MVVM.Model
 {

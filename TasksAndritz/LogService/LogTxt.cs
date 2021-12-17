@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using TasksAndritz.MVVM.Interfaces;
+using TasksAndritz.LogService.Interfaces;
+using TasksAndritz.LogService.Model;
 
 namespace TasksAndritz.MVVM.Model
 {
-    public class LogTxt : IServiceLog, IRemoveLog
+    public class LogTxt : ISendLog, IRemoveLog
     {
-        public IEnumerable<Log> Logs()
+        /*public IEnumerable<Log> Logs()
         {
             var logs = new List<Log>();
             if (!File.Exists("Logs.txt"))
@@ -35,9 +35,9 @@ namespace TasksAndritz.MVVM.Model
             }
 
             return logs;  
-        }
+        }*/
 
-        public void Remove()
+        public void Remove(object sender, EventArgs handler)
         {
             File.Delete("Logs.txt");
         }

@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 using System.Windows;
 using TasksAndritz.Core;
-using TasksAndritz.MVVM.Interfaces;
-using TasksAndritz.MVVM.Model;
 using TasksAndritz.MVVM.View;
 
 namespace TasksAndritz.MVVM.ViewModel
@@ -61,7 +56,6 @@ namespace TasksAndritz.MVVM.ViewModel
 
             HomeViewModel = new HomeViewModel();
             SearchText += HomeViewModel.SearchMocx;
-            HomeViewModel.UpdateLog += GetLogs;
 
             MocxViewModel = new MocxViewModel();
 
@@ -71,27 +65,9 @@ namespace TasksAndritz.MVVM.ViewModel
 
             });
 
-            DeleteLogsCommand = new RelayCommand((r) => {
-
-                foreach (var logRemoveService in LogRemoveServices)
-                {
-                    logRemoveService.Remove();
-                }
-
-                GetLogs(null, null);
-
-            });
-
-            GetLogs(null, null);
-
             AddMocxCommand = new RelayCommand(r => GoToMocx(r as Model.Mocx));
 
             CurrentView = new HomeView(HomeViewModel);
-        }
-
-        public void GetLogs(object sender, EventArgs args)
-        {
-            Logs = new ObservableCollection<Log>(logSqliteRepo.Logs());
         }
 
         public void GoToMocx(Model.Mocx mocx)
@@ -104,7 +80,6 @@ namespace TasksAndritz.MVVM.ViewModel
 
             MocxViewModel.SaveMocxEvent += HomeViewModel.AttDates;
             MocxViewModel.SaveMocxEvent += CloseMocx;
-            MocxViewModel.UpdateLog += GetLogs;
 
             var barTopViewModel = new BarTopCloseMinimizeViewModel()
             {

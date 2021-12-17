@@ -1,12 +1,11 @@
 ﻿using SQLite;
 using System;
-using System.Collections.Generic;
-using TasksAndritz.MVVM.Interfaces;
-using TasksAndritz.Service;
+using TasksAndritz.LogService.Interfaces;
+using TasksAndritz.LogService.Model;
 
-namespace TasksAndritz.MVVM.Model
+namespace TasksAndritz.LogService
 {
-    public class LogSQLite : IServiceLog, IRemoveLog
+    public class LogSQLite : ISendLog, IRemoveLog
     {
         private const string nameTableDataBase = "Log";
         private readonly SQLiteConnection connection;
@@ -20,12 +19,7 @@ namespace TasksAndritz.MVVM.Model
             }
         }
 
-        public IEnumerable<Log> Logs()
-        {
-            return connection.Table<Log>().OrderByDescending(l => l.Id);
-        }
-
-        public void Remove()
+        public void Remove(object sender, EventArgs handler)
         {
             connection.DeleteAll<Log>();
         }
@@ -36,7 +30,7 @@ namespace TasksAndritz.MVVM.Model
             connection.Insert(log);
         }
 
-        public string DataBasePath()
+        private string DataBasePath()
         {
             string dataBaseName = "MyMocxs.db";
             string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
 using TasksAndritz.Core;
+using TasksAndritz.LogService.Model;
 using TasksAndritz.MVVM.Model;
 
 namespace TasksAndritz.MVVM.ViewModel
@@ -20,8 +21,6 @@ namespace TasksAndritz.MVVM.ViewModel
                 OnPropertyChanged(nameof(Mocxs));
             }
         }
-
-        public EventHandler UpdateLog;
 
         public RelayCommand OpenMocxCommand { get; set; }
         public RelayCommand DeleteMocxCommand { get; set; }
@@ -69,12 +68,12 @@ namespace TasksAndritz.MVVM.ViewModel
         public void AttDates(object sender, EventArgs args)
         {
             Mocxs = new ObservableCollection<Mocx>(appRepo.GetMocxs());
-            UpdateLog?.Invoke(this, new EventArgs());
         }
 
         public void DeleteMocx(Mocx mocx)
         {
             appRepo.DeleteMocx(mocx.Id);
+            CreateLog(mocx.Cod, TypeLog.Remove);
             AttDates(null, null);
         }
 

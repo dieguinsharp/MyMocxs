@@ -4,7 +4,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
-using TasksAndritz.MVVM.Interfaces;
+using TasksAndritz.LogService;
+using TasksAndritz.LogService.Controller;
+using TasksAndritz.LogService.Model;
+using TasksAndritz.LogService.Interfaces;
 using TasksAndritz.MVVM.Model;
 using TasksAndritz.Service;
 
@@ -14,26 +17,30 @@ namespace TasksAndritz.Core
     {
 
         protected readonly AppRepo appRepo;
-        protected readonly LogSQLite logSqliteRepo;
-        protected readonly LogTxt logTxtRepo;
+        protected readonly LogController logControler;
+
+        Log log;
 
         public ObservableObject()
         {
             appRepo = new AppRepo();
-            logSqliteRepo = new LogSQLite();
-            logTxtRepo = new LogTxt();
-
             Logs = new ObservableCollection<Log>();
+            logControler = new LogController(SendLogServices, RemoveLogServices);
         }
 
-        public static readonly IEnumerable<IServiceLog> LogServices = new List<IServiceLog>
+        public void CreateLog(string cod, TypeLog typeLog)
+        {
+            logControler.Send(new Log(typeLog, cod));
+        }
+
+        public static readonly IEnumerable<ISendLog> SendLogServices = new List<ISendLog>
         {
             new LogSQLite(),
             new LogTxt(), 
             new LogMessageBox()
         };
 
-        public static readonly IEnumerable<IRemoveLog> LogRemoveServices = new List<IRemoveLog>
+        public static readonly IEnumerable<IRemoveLog> RemoveLogServices = new List<IRemoveLog>
         {
             new LogSQLite(),
             new LogTxt()

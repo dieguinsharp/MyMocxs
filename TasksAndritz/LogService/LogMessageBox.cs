@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Windows;
-using TasksAndritz.MVVM.Interfaces;
+using TasksAndritz.LogService.Interfaces;
+using TasksAndritz.LogService.Model;
 
-namespace TasksAndritz.MVVM.Model
+namespace TasksAndritz.LogService
 {
-    public class LogMessageBox : IServiceLog
+    public class LogMessageBox : ISendLog
     {
         public void Send(object sender, EventArgs handler)
         {

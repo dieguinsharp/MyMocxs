@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using SQLite;
-using System.Text;
 using TasksAndritz.MVVM.Model;
-using TasksAndritz.MVVM.Interfaces;
-using TasksAndritz.Core;
 
 namespace TasksAndritz.Service
 {
     public class AppRepo
     {
 
-        private Log log;
         private const string nameTableDatabase = "Mocx";
 
         private readonly SQLiteConnection connection;
@@ -39,13 +34,11 @@ namespace TasksAndritz.Service
             if(mocx.Id > 0)
             {
                 connection.Update(mocx);
-                CreateLog(mocx, TypeLog.Update);
                 return true;
             }
 
             mocx.Date = DateTime.Now;
             connection.Insert(mocx);
-            CreateLog(mocx, TypeLog.Add);
             return true;
         }
 
@@ -53,7 +46,6 @@ namespace TasksAndritz.Service
         {
             var mocx = GetMocx(idMocx);
             connection.Delete(mocx);
-            CreateLog(mocx, TypeLog.Remove);
 
             return true;
         }
@@ -66,11 +58,6 @@ namespace TasksAndritz.Service
         public IEnumerable<Mocx> SearchMocxs(string searchText)
         {
             return connection.Table<Mocx>().Where(s => s.Cod.Contains(searchText));
-        }
-
-        public void CreateLog(Mocx mocx, TypeLog typeLog)
-        {
-            log = new Log(ObservableObject.LogServices, mocx.Cod, typeLog);
         }
     }
 }

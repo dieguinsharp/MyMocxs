@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using TasksAndritz.Core;
+using TasksAndritz.LogService.Model;
 using TasksAndritz.MVVM.Model;
 
 namespace TasksAndritz.MVVM.ViewModel
@@ -42,7 +43,16 @@ namespace TasksAndritz.MVVM.ViewModel
         }
 
         public EventHandler SaveMocxEvent { get; set; }
-        public EventHandler UpdateLog { get; set; }
+
+        private bool IsUpdate()
+        {
+            if (MocxObj.Id > 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
 
         public void SaveMocx()
         {
@@ -55,11 +65,20 @@ namespace TasksAndritz.MVVM.ViewModel
 
             try
             {
+                bool isUpdate = IsUpdate();
                 appRepo.SaveMocx(MocxObj);
+
+                if(isUpdate)
+                {
+                    CreateLog(MocxObj.Cod, TypeLog.Update);
+                }
+                else
+                {
+                    CreateLog(MocxObj.Cod, TypeLog.Add);
+                }
+
                 MocxObj = new Mocx();
-                
                 SaveMocxEvent?.Invoke(this, new EventArgs());
-                UpdateLog?.Invoke(this, new EventArgs());
             }
             catch (Exception ex)
             {

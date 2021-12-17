@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using TasksAndritz.MVVM.Model;
 
-namespace TasksAndritz.MVVM.Interfaces
+namespace TasksAndritz.LogService.Interfaces
 {
-    public interface IServiceLog
+    public interface ISendLog
     {
         void Send(object sender, EventArgs handler);
     }
 
     public interface IRemoveLog
     {
-        void Remove();
+        void Remove(object sender, EventArgs handler);
     }
 }
