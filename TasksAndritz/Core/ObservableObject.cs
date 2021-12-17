@@ -9,7 +9,7 @@ using TasksAndritz.LogService.Controller;
 using TasksAndritz.LogService.Model;
 using TasksAndritz.LogService.Interfaces;
 using TasksAndritz.MVVM.Model;
-using TasksAndritz.Service;
+using TasksAndritz.SQLiteService;
 
 namespace TasksAndritz.Core
 {
@@ -19,11 +19,9 @@ namespace TasksAndritz.Core
         protected readonly AppRepo appRepo;
         protected readonly LogController logControler;
 
-        Log log;
-
         public ObservableObject()
         {
-            appRepo = new AppRepo();
+            appRepo = new AppRepo("Mocx");
             Logs = new ObservableCollection<Log>();
             logControler = new LogController(SendLogServices, RemoveLogServices);
         }

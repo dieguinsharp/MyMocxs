@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using SQLite;
 using TasksAndritz.MVVM.Model;
 
-namespace TasksAndritz.Service
+namespace TasksAndritz.SQLiteService
 {
     public class AppRepo
     {
-
-        private const string nameTableDatabase = "Mocx";
-
         private readonly SQLiteConnection connection;
-        public AppRepo()
+        public AppRepo(string nameTableDatabase)
         {
             connection = new SQLiteConnection(App.GetDataBasePath());
             ExistDataBaseOrCreate(nameTableDatabase);
@@ -41,7 +38,6 @@ namespace TasksAndritz.Service
             connection.Insert(mocx);
             return true;
         }
-
         public bool DeleteMocx(int idMocx)
         {
             var mocx = GetMocx(idMocx);
@@ -49,12 +45,10 @@ namespace TasksAndritz.Service
 
             return true;
         }
-
         public Mocx GetMocx(int idMocx)
         {
             return connection.Table<Mocx>().FirstOrDefault(m => m.Id == idMocx);
         }
-
         public IEnumerable<Mocx> SearchMocxs(string searchText)
         {
             return connection.Table<Mocx>().Where(s => s.Cod.Contains(searchText));
