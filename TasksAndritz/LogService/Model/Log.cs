@@ -17,7 +17,7 @@ namespace TasksAndritz.LogService.Model
         {
             get
             {
-                return "MOCX-" + Mocx + " " + TypeLog.GetDisplayName();
+                return !string.IsNullOrEmpty(Mocx) ? $"MOCX-{Mocx} {TypeLog.GetDisplayName()}" : TypeLog.GetDisplayName();
             }
         }
 

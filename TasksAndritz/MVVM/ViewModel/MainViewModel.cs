@@ -74,6 +74,7 @@ namespace TasksAndritz.MVVM.ViewModel
             DeleteLogsCommand = new RelayCommand(r =>
             {
                 appRepo.DeleteLogs();
+                CreateLog(TypeLog.RemoveLogs);
                 LoadLog?.Invoke(this, new EventArgs());
             });
 

@@ -70,11 +70,11 @@ namespace TasksAndritz.MVVM.ViewModel
 
                 if(isUpdate)
                 {
-                    CreateLog(MocxObj.Cod, TypeLog.Update);
+                    CreateLog(TypeLog.Update, MocxObj.Cod);
                 }
                 else
                 {
-                    CreateLog(MocxObj.Cod, TypeLog.Add);
+                    CreateLog(TypeLog.Add, MocxObj.Cod);
                 }
 
                 MocxObj = new Mocx();

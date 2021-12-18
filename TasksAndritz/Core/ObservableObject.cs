@@ -26,7 +26,7 @@ namespace TasksAndritz.Core
             logControler = new LogController(SendLogServices, RemoveLogServices);
         }
 
-        public void CreateLog(string cod, TypeLog typeLog)
+        public void CreateLog(TypeLog typeLog, string cod = "")
         {
             logControler.Send(new Log(typeLog, cod));
         }

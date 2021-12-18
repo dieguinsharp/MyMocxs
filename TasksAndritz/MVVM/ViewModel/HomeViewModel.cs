@@ -78,7 +78,7 @@ namespace TasksAndritz.MVVM.ViewModel
         public void DeleteMocx(Mocx mocx)
         {
             appRepo.DeleteMocx(mocx.Id);
-            CreateLog(mocx.Cod, TypeLog.Remove);
+            CreateLog(TypeLog.Remove, mocx.Cod);
             LoadDates?.Invoke(this, new EventArgs());
         }
 
